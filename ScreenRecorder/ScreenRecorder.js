@@ -1,4 +1,6 @@
-/// Sample Code from https://developer.mozilla.org/en-US/docs/Web/API/Screen_Capture_API/Using_Screen_Capture
+/* Sample Code from https://developer.mozilla.org/en-US/docs/Web/API/Screen_Capture_API/Using_Screen_Capture
+ Wtih some edit and add recorder function
+*/
 const videoElem = document.getElementById("video");
 const logElem = document.getElementById("log");
 const startElem = document.getElementById("start");
