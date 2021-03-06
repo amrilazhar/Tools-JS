@@ -9,7 +9,7 @@ const startRecElem = document.getElementById("startRec");
 const stopRecElem = document.getElementById("stopRec");
 
 //Recorder buat ngerekam
-const recorder = new MediaRecorder(stream);
+let recorder;
 const chunks = [];
 
 // Options for getDisplayMedia()
@@ -29,12 +29,20 @@ stopElem.addEventListener("click", function(evt) {
   stopCapture();
 }, false);
 startRecElem.addEventListener("click", function(evt) {
-  recorder.ondataavailable = e => chunks.push(e.data);
+  console.log("Start Recording");
   recorder.start();
 }, false);
 
 stopRecElem.addEventListener("click", function(evt) {
   recorder.stop();
+  /// Convert to Object and save
+  recorder.onstop = e => {
+    const completeBlob = new Blob(chunks, { type: 'video/webm' });
+    let DLink = document.getElementById("recorded");
+    DLink.href = URL.createObjectURL(completeBlob);
+    DLink.download = "scRecord";
+    DLink.innerHTML = "Click here to download the video";
+  };
 }, false);
 
 console.log = msg => logElem.innerHTML += `${msg}<br>`;
@@ -49,6 +57,8 @@ async function startCapture() {
 
   try {
     videoElem.srcObject = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
+    recorder = new MediaRecorder(videoElem.srcObject);
+    recorder.ondataavailable = e => chunks.push(e.data);
     dumpOptionsInfo();
   } catch(err) {
     console.error("Error: " + err);
@@ -70,10 +80,3 @@ function dumpOptionsInfo() {
   console.info("Track constraints:");
   console.info(JSON.stringify(videoTrack.getConstraints(), null, 2));
 }
-
-/// Conter to Object and save
-recorder.onstop = e => {
-  const completeBlob = new Blob(chunks, { type: chunks[0].type });
-  video.src = URL.createObjectURL(completeBlob);
-  console.log = msg => logElem.innerHTML += `${video.src}<br>`;
-};
