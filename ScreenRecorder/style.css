@@ -1,0 +1,33 @@
+.main-content {
+    font-family:georgia;
+    text-align:center;
+}
+
+.wrapper {
+  width: 500px;
+  display: inline-block;
+}
+video {
+  margin-top: 10px;
+  border: 1px solid;
+  width: 450px;
+}
+
+#log{
+  border:1px solid;
+}
+
+.btn {
+  padding:12px 24px;
+  color: white;
+  display: inline-block;
+  opacity: 0.8;
+}
+
+.start {
+  background-color:#239b76
+}
+
+.stop {
+  background-color:red;
+}
