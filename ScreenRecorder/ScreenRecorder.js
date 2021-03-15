@@ -9,6 +9,7 @@ const stopElem = document.getElementById("stop");
 // const stopRecElem = document.getElementById("stopRec");
 const startBtn = document.getElementById("startBtn");
 const stopBtn = document.getElementById("stopBtn");
+const downloadBtn = document.getElementById("downloadBtn");
 const dateNow = new Date();
 
 //Recorder buat ngerekam
@@ -28,12 +29,14 @@ startElem.addEventListener("click", function(evt) {
   startCapture();
   startBtn.classList.add("hide");
   stopBtn.classList.remove("hide");
+  downloadBtn.classList.add("hide");
 }, false);
 
 stopElem.addEventListener("click", function(evt) {
   stopCapture();
   startBtn.classList.remove("hide");
   stopBtn.classList.add("hide");
+  downloadBtn.classList.remove("hide");
 }, false);
 
 
@@ -54,7 +57,7 @@ async function startCapture() {
     recorder.ondataavailable = e => chunks.push(e.data);
     recorder.start();
     dumpOptionsInfo();
-    console.log("Start Recording");
+    console.log("<span class=\"info\"> Start Recording </span>");
   } catch(err) {
     console.error("Error: " + err);
   }
@@ -62,7 +65,7 @@ async function startCapture() {
 
 function stopCapture(evt) {
   let tracks = videoElem.srcObject.getTracks();
-
+  let fileName;
   recorder.stop();
   /// Convert to Object and save
   recorder.onstop = e => {
@@ -71,10 +74,14 @@ function stopCapture(evt) {
     DLink.href = URL.createObjectURL(completeBlob);
     DLink.download = `scRecord-${dateNow.getDate()}-${dateNow.getMonth()}-${dateNow.getFullYear()}-${dateNow.getMilliseconds()}`;
     DLink.innerHTML = "Click here to download the video";
+    fileName = `scRecord-${dateNow.getDate()}-${dateNow.getMonth()}-${dateNow.getFullYear()}-${dateNow.getMilliseconds()}`;
   }
+
+  console.log("<span class=\"info\"> STOP Recording </span>");
 
   tracks.forEach(track => track.stop());
   videoElem.srcObject = null;
+  console.log("<span class=\"info\"> STOP Capturing </span>");
 }
 
 function dumpOptionsInfo() {
