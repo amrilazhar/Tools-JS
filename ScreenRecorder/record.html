@@ -15,10 +15,20 @@
         </div>
 
         <div>
-          <button id="start" class="btn start">Start Capture</button>&nbsp;
-          <button id="stop" class="btn start">Stop Capture</button>
-          <button id="startRec" class="btn start">Record</button>&nbsp;
-          <button id="stopRec" class="btn stop">Stop Record</button>
+          <div class="box start show" id="startBtn" >
+            <div href="#" id="start" class="btn">
+              Start Capture
+            </div>
+          </div>
+          <div class="box stop hide" id="stopBtn">
+            <div href="#" id="stop" class="btn">
+              Stop Capture
+            </div>
+          </div>
+          <!--
+          <button id="startRec" class="box btn start">Record</button>
+          <button id="stopRec" class="box btn stop">Stop Record</button>
+          -->
         </div>
 
         <video id="video" autoplay></video>
@@ -28,7 +38,7 @@
         <br />
         <pre id="log"></pre>
         <a id="recorded" href="#">Download Link</a>
-      </div>      
+      </div>
     </div>
   </body>
   <script type="text/javascript" src="ScreenRecorder.js"></script>

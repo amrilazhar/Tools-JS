@@ -5,8 +5,11 @@ const videoElem = document.getElementById("video");
 const logElem = document.getElementById("log");
 const startElem = document.getElementById("start");
 const stopElem = document.getElementById("stop");
-const startRecElem = document.getElementById("startRec");
-const stopRecElem = document.getElementById("stopRec");
+// const startRecElem = document.getElementById("startRec");
+// const stopRecElem = document.getElementById("stopRec");
+const startBtn = document.getElementById("startBtn");
+const stopBtn = document.getElementById("stopBtn");
+const dateNow = new Date();
 
 //Recorder buat ngerekam
 let recorder;
@@ -23,27 +26,17 @@ var displayMediaOptions = {
 // Set event listeners for the start and stop buttons
 startElem.addEventListener("click", function(evt) {
   startCapture();
+  startBtn.classList.add("hide");
+  stopBtn.classList.remove("hide");
 }, false);
 
 stopElem.addEventListener("click", function(evt) {
   stopCapture();
-}, false);
-startRecElem.addEventListener("click", function(evt) {
-  console.log("Start Recording");
-  recorder.start();
+  startBtn.classList.remove("hide");
+  stopBtn.classList.add("hide");
 }, false);
 
-stopRecElem.addEventListener("click", function(evt) {
-  recorder.stop();
-  /// Convert to Object and save
-  recorder.onstop = e => {
-    const completeBlob = new Blob(chunks, { type: 'video/webm' });
-    let DLink = document.getElementById("recorded");
-    DLink.href = URL.createObjectURL(completeBlob);
-    DLink.download = "scRecord";
-    DLink.innerHTML = "Click here to download the video";
-  };
-}, false);
+
 
 console.log = msg => logElem.innerHTML += `${msg}<br>`;
 console.error = msg => logElem.innerHTML += `<span class="error">${msg}</span><br>`;
@@ -59,7 +52,9 @@ async function startCapture() {
     videoElem.srcObject = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
     recorder = new MediaRecorder(videoElem.srcObject);
     recorder.ondataavailable = e => chunks.push(e.data);
+    recorder.start();
     dumpOptionsInfo();
+    console.log("Start Recording");
   } catch(err) {
     console.error("Error: " + err);
   }
@@ -67,6 +62,16 @@ async function startCapture() {
 
 function stopCapture(evt) {
   let tracks = videoElem.srcObject.getTracks();
+
+  recorder.stop();
+  /// Convert to Object and save
+  recorder.onstop = e => {
+    const completeBlob = new Blob(chunks, { type: 'video/webm' });
+    let DLink = document.getElementById("recorded");
+    DLink.href = URL.createObjectURL(completeBlob);
+    DLink.download = `scRecord-${dateNow.getDate()}-${dateNow.getMonth()}-${dateNow.getFullYear()}-${dateNow.getMilliseconds()}`;
+    DLink.innerHTML = "Click here to download the video";
+  }
 
   tracks.forEach(track => track.stop());
   videoElem.srcObject = null;

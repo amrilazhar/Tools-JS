@@ -1,5 +1,5 @@
 .main-content {
-    font-family:georgia;
+    font-family:"Avenir";
     text-align:center;
 }
 
@@ -13,21 +13,43 @@ video {
   width: 450px;
 }
 
-#log{
+a {
+  text-decoration: none;
+}
+
+#log {
   border:1px solid;
+  color: white;
+  background-color:#073b4c;
 }
 
 .btn {
-  padding:12px 24px;
   color: white;
-  display: inline-block;
-  opacity: 0.8;
+  font-weight: bold;
+  padding:5px;
 }
 
 .start {
-  background-color:#239b76
+  background-color:#06d6a0
 }
 
 .stop {
-  background-color:red;
+  background-color:#d00000;
+}
+
+.btn:hover{
+  cursor: pointer;
+}
+
+.box{
+  border-radius: 8px;
+  width: 90%;
+  height: 30px;
+  text-align: center;
+  display:inline-block;
+  opacity: 0.8;
+}
+
+.hide {
+  display: none;
 }
